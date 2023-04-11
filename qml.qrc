@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ui/TopBar/MenuButtons.qml</file>
+        <file>ui/Views/TimeTrackerPage.qml</file>
+        <file>ui/Views/TemplatePage.qml</file>
+    </qresource>
+</RCC>
