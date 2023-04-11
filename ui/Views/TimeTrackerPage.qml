@@ -74,11 +74,11 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                Rectangle {
-                    anchors.fill: _
-                    color: "transparent"
-                    border.color: "yellow"
-                }
+//                Rectangle {
+//                    anchors.fill: _
+//                    color: "transparent"
+//                    border.color: "yellow"
+//                }
 
                 Rectangle {
                     id: projectsList

@@ -24,12 +24,12 @@ ApplicationWindow {
 
 
 
-    Rectangle {
-        anchors.fill: menu
-        border.width: 4
-        border.color: "yellow"
-        color: "transparent"
-    }
+//    Rectangle {
+//        anchors.fill: menu
+//        border.width: 4
+//        border.color: "yellow"
+//        color: "transparent"
+//    }
 
 //    RowLayout {
 //        anchors.fill: parent
