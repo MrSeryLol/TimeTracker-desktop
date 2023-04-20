@@ -1,9 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QtCore>
+#include "./API/projectapi.h"
 
 
 int main(int argc, char *argv[])
 {
+    setlocale(LC_ALL, "");
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -17,6 +20,16 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
+    ProjectAPI project;
+    project.GetProjects();
+    //project.PrintJson();
+    //project.GetProjects();
+
+
+
+    //ProjectModel model;
+    //model.GetProjects();
 
     return app.exec();
 }
