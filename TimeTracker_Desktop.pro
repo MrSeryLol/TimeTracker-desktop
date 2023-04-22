@@ -6,6 +6,7 @@ QT += quick network
 
 SOURCES += \
         API/projectapi.cpp \
+        Models/projectsmodel.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -24,3 +25,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     API/baseURL.h \
     API/projectapi.h \
+    DTO/ProjectDTO.h \
+    Models/projectsmodel.h

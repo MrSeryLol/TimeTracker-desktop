@@ -23,6 +23,9 @@ int main(int argc, char *argv[])
 
     ProjectAPI project;
     project.GetProjects();
+    //QString string = data;
+    //qDebug() << string;
+    //qDebug() << data;
     //project.PrintJson();
     //project.GetProjects();
 
