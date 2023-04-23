@@ -13,108 +13,151 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello World")
 
-
-//    menuBar: MenuBar {
-
-//    }
-
     header: MenuButtons {
         id: menu
     }
 
-
-
-//    Rectangle {
-//        anchors.fill: menu
-//        border.width: 4
-//        border.color: "yellow"
-//        color: "transparent"
+//    ListModel {
+//        id: names
+//        ListElement { name: "Сергей" }
 //    }
 
-//    RowLayout {
-//        anchors.fill: parent
+//    ListView {
+//        //width: 100
+//        //height: 100
 
-//        StackView {
-//               id: stack
-//               width: root.width
-//               height: root.height
-//    //           anchors.left: root.left
-//    ////           anchors.top: menu.bottom
-//    //           anchors.margins: 20
-//    //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
-//    //           anchors.fill: parent
-//               initialItem: mainview
+//        model: names
+
+//        delegate: Text {
+//            text: model.name
 //        }
-//        TimeTrackerPage {
-//            id: mainview
-//            backgroundColor: "black"
-//            anchors.left: root.left
-////            anchors.top: root.top
-//    //        width: menu.
-//    //        height: 50
-//        }
+
 //    }
 
 
 
-        StackView {
-               id: stack
-               width: root.width
-               height: root.height - menu.height
-    //           anchors.left: root.left
-    ////           anchors.top: menu.bottom
-    //           anchors.margins: 20
-    //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
-    //           anchors.fill: parent
-               initialItem: mainview
-        }
-        TimeTrackerPage {
-            id: mainview
-//            Button {
-//                   text: "Open"
-//                   onClicked: popup.open()
-//               }
+    //    Rectangle {
+    //        anchors.fill: menu
+    //        border.width: 4
+    //        border.color: "yellow"
+    //        color: "transparent"
+    //    }
 
-//               Popup {
-//                   id: popup
-//                   x: 100
-//                   y: 100
-//                   width: 200
-//                   height: 300
-//                   modal: true
-//                   focus: true
-//                   closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-//               }
-//            backgroundColor: "black"
+    //    RowLayout {
+    //        anchors.fill: parent
+
+    //        StackView {
+    //               id: stack
+    //               width: root.width
+    //               height: root.height
+    //    //           anchors.left: root.left
+    //    ////           anchors.top: menu.bottom
+    //    //           anchors.margins: 20
+    //    //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
+    //    //           anchors.fill: parent
+    //               initialItem: mainview
+    //        }
+    //        TimeTrackerPage {
+    //            id: mainview
+    //            backgroundColor: "black"
+    //            anchors.left: root.left
+    ////            anchors.top: root.top
+    //    //        width: menu.
+    //    //        height: 50
+    //        }
+    //    }
+
+
+
+    StackView {
+        id: stack
+        width: root.width
+        height: root.height - menu.height
+        //           anchors.left: root.left
+        ////           anchors.top: menu.bottom
+        //           anchors.margins: 20
+        //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
+        //           anchors.fill: parent
+        initialItem: mainview
+    }
+    TimeTrackerPage {
+        id: mainview
+        //onTimeTrackerPageReady: () => _project.getProjects()
+
+
+        //onTimeTrakckerPageReady: _project.getProjects();
+//        onTimeTrakckerPageReady: _project.getProjects();
+//        ListView {
+//            anchors.fill: parent
+//            model: _project.model
+//            delegate: Text {
+//                text: _project.model.projectName
+//            }
+//        }
     }
 
 
 
+//        //            Button {
+//        //                   text: "Open"
+//        //                   onClicked: popup.open()
+//        //               }
 
-
-
-//    Rectangle {
-//        anchors.fill: stack
-//        border.width: 4
-//        border.color: "yellow"
-//        color: "transparent"
+//        //               Popup {
+//        //                   id: popup
+//        //                   x: 100
+//        //                   y: 100
+//        //                   width: 200
+//        //                   height: 300
+//        //                   modal: true
+//        //                   focus: true
+//        //                   closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+//        //               }
+//        //            backgroundColor: "black"
 //    }
 
-//    TimeTrackerPage {
-//        id: mainview
-//        backgroundColor: "black"
-////        Label {
-////            id: label
-////            Layout.alignment: Qt.AlignHCenter
-////            text: "Выберите проект"
-////            font.pointSize: 14
-////            font.bold: true
-////        }
-////        anchors.left: root.left
-////        anchors.top: root.top
-////        width: menu.
-////        height: 50
+    //onTimeTrakckerPageReady: _project.getProjects();
+//    ListView {
+//        anchors.fill: parent
+//        model: _project.model
+//        delegate: Text {
+//            text: _project.model.projectName
+//        }
 //    }
+
+//    Connections {
+//        target: _project
+//    }
+
+
+
+
+
+
+
+
+    //    Rectangle {
+    //        anchors.fill: stack
+    //        border.width: 4
+    //        border.color: "yellow"
+    //        color: "transparent"
+    //    }
+
+    //    TimeTrackerPage {
+    //        id: mainview
+    //        backgroundColor: "black"
+    ////        Label {
+    ////            id: label
+    ////            Layout.alignment: Qt.AlignHCenter
+    ////            text: "Выберите проект"
+    ////            font.pointSize: 14
+    ////            font.bold: true
+    ////        }
+    ////        anchors.left: root.left
+    ////        anchors.top: root.top
+    ////        width: menu.
+    ////        height: 50
+    //    }
 }
 
 //    RowLayout {

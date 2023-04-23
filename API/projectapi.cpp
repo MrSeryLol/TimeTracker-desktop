@@ -1,12 +1,16 @@
 #include "projectapi.h"
 
-struct ProjectData;
+
 
 ProjectAPI::ProjectAPI(QObject *parent)
-    : QObject{parent},
-      _items(nullptr)
+    : QObject{parent}
+      //_model({}, parent)
 {
     _items = new QList<ProjectDTO>();
+
+    connect(&_manager, &QNetworkAccessManager::finished, this, &ProjectAPI::Fetch);
+    connect(this, &ProjectAPI::NewJson, this, &ProjectAPI::ParseJson);
+    connect(this, &ProjectAPI::ProjectsListReady, this, &ProjectAPI::CreateModel);
     //QDate date = QDate::fromString("2023-04-11T16:38:44.071Z");
     //_items->append(ProjectData("Создать программу", "Описать этапы проектирования и прочего", 20, date));
 
@@ -37,6 +41,13 @@ void ProjectAPI::Fetch(QNetworkReply* res)
     emit NewJson(info);
 }
 
+void ProjectAPI::CreateModel()
+{
+    _model = new ProjectsModel(_items, this);
+    emit modelReady(_model);
+    //qDebug() << _model->data(0, Qt::UserRole);
+}
+
 QByteArray ProjectAPI::ParseJson(const QByteArray &json)
 {
     QJsonArray info = QJsonDocument::fromJson(json).array();
@@ -47,6 +58,8 @@ QByteArray ProjectAPI::ParseJson(const QByteArray &json)
         int estimateTime = value.toObject()["estimate_time"].toInt();
         QDate createdAt = QDate::fromString(value.toObject()["createdAt"].toString(), Qt::DateFormat::ISODate);
 
+
+
         _items->append(ProjectDTO(projectName, projectDesription, estimateTime, createdAt));
     }
 
@@ -56,15 +69,25 @@ QByteArray ProjectAPI::ParseJson(const QByteArray &json)
         qDebug() << string;
         //qDebug() << std::printf("%s %s %d %s", item.projectName, item.projectDesription, item.estimateTime, item.createdAt);
     }
+
+    qDebug() << _items;
+
+    emit ProjectsListReady();
     return QByteArray();
 }
 
-void ProjectAPI::GetProjects()
+ProjectsModel *ProjectAPI::model() const
+{
+    return _model;
+}
+
+void ProjectAPI::getProjects()
 {
     //_manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/56")));
-    _manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/")));
-    connect(&_manager, &QNetworkAccessManager::finished, this, &ProjectAPI::Fetch);
-    connect(this, &ProjectAPI::NewJson, this, &ProjectAPI::ParseJson);
+    _res = _manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/")));
+//    connect(&_manager, &QNetworkAccessManager::finished, this, &ProjectAPI::Fetch);
+//    connect(this, &ProjectAPI::NewJson, this, &ProjectAPI::ParseJson);
+//    connect(this, &ProjectAPI::ProjectsListReady, this, &ProjectAPI::CreateModel);
 }
 
 //QByteArray ProjectAPI::ToJson(const QByteArray &json)

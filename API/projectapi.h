@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include "API/baseURL.h"
 #include "../DTO/ProjectDTO.h"
+#include "../Models/projectsmodel.h"
 //#include "../Models/projectsmodel.h"
 
 //struct ProjectData
@@ -28,10 +29,13 @@ public:
     explicit ProjectAPI(QObject *parent = nullptr);
 
     void StartRequest(QNetworkReply* res);
-    void GetProjects();
+    Q_INVOKABLE void getProjects();
+    QList<ProjectDTO>* GetProjectsList();
     QByteArray ParseJson(const QByteArray& json);
 
     //void PrintJson();
+
+    ProjectsModel *model() const;
 
 private:
     QNetworkAccessManager _manager;
@@ -39,13 +43,17 @@ private:
     QByteArray _responseArray;
     QJsonDocument _JsonDocument;
     QList<ProjectDTO>* _items;
+    ProjectsModel* _model;
 
 
 signals:
     void NewJson(QByteArray info);
+    void ProjectsListReady();
+    void modelReady(ProjectsModel* _model);
 
 private slots:
     void Fetch(QNetworkReply* res);
+    void CreateModel();
     //void Fetch();
     void PrintJson();
 public slots:

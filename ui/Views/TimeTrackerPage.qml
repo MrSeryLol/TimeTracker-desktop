@@ -5,17 +5,25 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: root
+    signal timeTrackerPageReady()
+    Connections {
+        target: _project
+        function onModelReady(m) {
+            view.model = m
+            console.log("Вызван сигнал модели")
+        }
+    }
+
+
 
     TemplatePage {
         id: timeTrackerPage
-
         ColumnLayout {
             id: lay
             anchors.fill: parent
             Layout.minimumHeight: 100
             Layout.minimumWidth: 100
             anchors.margins: 10
-
             RowLayout {
                 id: row
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
@@ -94,7 +102,78 @@ Item {
                     Layout.fillHeight: true
 
                     Label {
+                        id: projectLabel
                         text: "Проекты"
+                    }
+                    GridView {
+                            id: view
+                            implicitHeight: projectsList.height
+                            implicitWidth: projectsList.width
+                            cellWidth: projectsList.width / 3
+                            cellHeight: projectsList.height / 3
+                            anchors { top: projectLabel.bottom; bottom: projectsList.bottom; left: projectsList.left; right: projectsList.right }
+                            delegate: Rectangle {
+                                id: item
+                                implicitHeight: view.height / 2
+                                implicitWidth: view.width / 3
+                                property var view: GridView.view
+                                property int itemIndex: index
+                                Text {
+                                    id: projectName
+                                    text: `${model.projectName}\n\n\n ${model.projectDate.toLocaleDateString(Qt.locale("ru_RU"))}`
+                                }
+                                MouseArea {
+                                    id: mouseArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onEntered: {
+                                        view.currentIndex = itemIndex
+                                        parent.color = "lightsteelblue"
+                                        console.log(mouseArea.containsMouse)
+                                    }
+                                    onExited: {
+                                        parent.color = "white"
+                                    }
+
+                                    onClicked: {
+                                        popup.open()
+
+                                    }
+                                }
+//                                Rectangle {
+//                                    anchors.fill: mouseArea
+//                                    color: "transparent"
+//                                    border.color: "yellow"
+//                                }
+                            }
+                            focus: true
+                            clip: true
+//                            highlight: Rectangle {
+//                                id: highlightArea
+//                                color: "lightsteelblue"
+//                                radius: 5
+
+//                            }
+                            onCurrentIndexChanged: {
+
+                                console.log(currentIndex)
+                            }
+
+
+//                                            Rectangle {
+//                                                anchors.fill: view
+//                                                color: "transparent"
+//                                                border.color: "yellow"
+//                                            }
+                        }
+                    Popup {
+                        id: popup
+                        width: 200
+                        height: 300
+                        modal: true
+                        focus: true
+                        closePolicy: Popup.CloseOnEscape
+
                     }
                 }
 
@@ -139,6 +218,12 @@ Item {
 
             }
         }
+    }
+
+    Component.onCompleted: {
+        _project.getProjects()
+        view.currentIndex = -1
+        console.log("Компонент загружен")
     }
 }
 
