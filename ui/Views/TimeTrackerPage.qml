@@ -5,16 +5,18 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: root
-    signal timeTrackerPageReady()
+    //signal timeTrackerPageReady()
+    //property var model: view.model
+
+
     Connections {
         target: _project
         function onModelReady(m) {
             view.model = m
-            console.log("Вызван сигнал модели")
+            //console.log(model.projectName)
+            //console.log("Вызван сигнал модели")
         }
     }
-
-
 
     TemplatePage {
         id: timeTrackerPage
@@ -91,7 +93,12 @@ Item {
                 Rectangle {
                     id: projectsList
                     radius: 4
-                    color: "white"
+                    //color: "white"
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#0f0f1c" }
+                        GradientStop { position: 0.7; color: "#2b1f30" }
+                    }
+
                     Layout.preferredHeight: timeTrackerPage.height / 3.5
                     Layout.preferredWidth: timeTrackerPage.width / 6
                     Layout.column: 0
@@ -104,40 +111,64 @@ Item {
                     Label {
                         id: projectLabel
                         text: "Проекты"
+                        color: "#c2c2c2"
+                        width: parent.width
+                        font.bold: true
+                        font.pixelSize: 20
+                        horizontalAlignment: Text.AlignHCenter
+                        //anchors.bottomMargin: projectLabel.height
                     }
                     GridView {
                             id: view
-                            implicitHeight: projectsList.height
-                            implicitWidth: projectsList.width
+                            //implicitHeight: projectsList.height
+                            //implicitWidth: projectsList.width
                             cellWidth: projectsList.width / 3
                             cellHeight: projectsList.height / 3
                             anchors { top: projectLabel.bottom; bottom: projectsList.bottom; left: projectsList.left; right: projectsList.right }
+                            anchors.topMargin: 10
+                            //model: model
                             delegate: Rectangle {
                                 id: item
-                                implicitHeight: view.height / 2
-                                implicitWidth: view.width / 3
-                                property var view: GridView.view
-                                property int itemIndex: index
+                                implicitHeight: view.cellHeight
+                                implicitWidth: view.cellWidth
+                                color: "#2b1f30"
                                 Text {
                                     id: projectName
-                                    text: `${model.projectName}\n\n\n ${model.projectDate.toLocaleDateString(Qt.locale("ru_RU"))}`
+                                    color: "#c2c2c2"
+                                    text: `${model.projectName}`
+                                    font.bold: true
+                                    font.pixelSize: 17
+                                    //anchors.horizontalCenter: parent.horizontalCenter
+                                    //verticalAlignment: Text.AlignHCenter
+                                    //horizontalAlignment: Text.AlignVCenter//Дата создания\n${model.projectDate.toLocaleDateString(Qt.locale("ru_RU"))}`
                                 }
+                                Text {
+                                    id: projectDate
+                                    color: "#c2c2c2"
+                                    text: `Дата создания:\n${model.projectDate.toLocaleString()}`
+                                    anchors.top: projectName.bottom
+                                }
+
                                 MouseArea {
                                     id: mouseArea
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     onEntered: {
-                                        view.currentIndex = itemIndex
-                                        parent.color = "lightsteelblue"
+                                        view.currentIndex = index
+
+                                        parent.color = "#6d7dad"
                                         console.log(mouseArea.containsMouse)
                                     }
                                     onExited: {
-                                        parent.color = "white"
+                                        //parent.gradient = projectsList.gradient
+                                        parent.color = "#2b1f30"
                                     }
 
                                     onClicked: {
-                                        popup.open()
-
+                                        //console.log(model.projectId)
+                                        //_project.getProjects()
+                                        //_project.getProjectById(model.projectId)
+                                        popup.open(model.projectId)
                                     }
                                 }
 //                                Rectangle {
@@ -148,15 +179,9 @@ Item {
                             }
                             focus: true
                             clip: true
-//                            highlight: Rectangle {
-//                                id: highlightArea
-//                                color: "lightsteelblue"
-//                                radius: 5
-
-//                            }
                             onCurrentIndexChanged: {
 
-                                console.log(currentIndex)
+                                //console.log(currentIndex)
                             }
 
 
@@ -166,13 +191,14 @@ Item {
 //                                                border.color: "yellow"
 //                                            }
                         }
-                    Popup {
+                    Loader {
+                        id: loader
+
+                    }
+
+                    TaskPopup {
                         id: popup
-                        width: 200
-                        height: 300
-                        modal: true
-                        focus: true
-                        closePolicy: Popup.CloseOnEscape
+                        //anchors.top: root
 
                     }
                 }

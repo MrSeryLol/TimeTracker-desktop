@@ -4,5 +4,6 @@
         <file>ui/TopBar/MenuButtons.qml</file>
         <file>ui/Views/TimeTrackerPage.qml</file>
         <file>ui/Views/TemplatePage.qml</file>
+        <file>ui/Views/TaskPopup.qml</file>
     </qresource>
 </RCC>

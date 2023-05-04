@@ -6,6 +6,7 @@ QT += quick network
 
 SOURCES += \
         API/projectapi.cpp \
+        Models/ProjectDetailsModel.cpp \
         Models/projectsmodel.cpp \
         main.cpp
 
@@ -23,7 +24,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    API/IBaseAPI.h \
     API/baseURL.h \
     API/projectapi.h \
     DTO/ProjectDTO.h \
+    DTO/ProjectDetailsDTO.h \
+    DTO/TaskDTO.h \
+    Models/ProjectDetailsModel.h \
     Models/projectsmodel.h

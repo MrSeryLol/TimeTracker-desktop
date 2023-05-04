@@ -6,21 +6,13 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QFuture>
 #include "API/baseURL.h"
 #include "../DTO/ProjectDTO.h"
 #include "../Models/projectsmodel.h"
-//#include "../Models/projectsmodel.h"
-
-//struct ProjectData
-//{
-//    ProjectData(const QString& projectName, const QString& projectDesription, int estimateTime, const QDate& createdAt)
-//        : projectName(projectName), projectDesription(projectDesription), estimateTime(estimateTime), createdAt(createdAt) {}
-//    QString projectName;
-//    QString projectDesription;
-//    int estimateTime;
-//    QDate createdAt;
-//};
-
+#include "../Models/ProjectDetailsModel.h"
+#include "../API/IBaseAPI.h"
+#include "DTO/ProjectDetailsDTO.h"
 
 class ProjectAPI : public QObject
 {
@@ -28,39 +20,30 @@ class ProjectAPI : public QObject
 public:
     explicit ProjectAPI(QObject *parent = nullptr);
 
-    void StartRequest(QNetworkReply* res);
     Q_INVOKABLE void getProjects();
+    Q_INVOKABLE void getProjectById(int id);
     QList<ProjectDTO>* GetProjectsList();
-    QByteArray ParseJson(const QByteArray& json);
 
-    //void PrintJson();
-
-    ProjectsModel *model() const;
+    Q_INVOKABLE ProjectsModel *model() const;
 
 private:
     QNetworkAccessManager _manager;
     QNetworkReply* _res;
     QByteArray _responseArray;
     QJsonDocument _JsonDocument;
-    QList<ProjectDTO>* _items;
+    QList<ProjectDTO>* _projects;
+    ProjectDetailsModel* _projectDetails;
     ProjectsModel* _model;
 
+    void createProjectDetailsModel();
 
 signals:
-    void NewJson(QByteArray info);
-    void ProjectsListReady();
+    void newJsonWithProjects(QByteArray info);
+    void projectsListReady();
     void modelReady(ProjectsModel* _model);
-
-private slots:
-    void Fetch(QNetworkReply* res);
-    void CreateModel();
-    //void Fetch();
-    void PrintJson();
-public slots:
-    //void GetProjects();
-    //QString GetProjects();
-
-
+    void projectDetailsModelReady(ProjectDetailsModel* projectDetails);
+    void newJsonWithProjectDetails(QByteArray info);
+    void projectDetailsReady();
 
 };
 

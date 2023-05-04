@@ -7,12 +7,12 @@
 class ProjectDTO
 {
 public:
-    ProjectDTO(const QString& projectName, const QString& projectDesription, int estimateTime, const QDate& createdAt)
-        : projectName(projectName), projectDesription(projectDesription), estimateTime(estimateTime), createdAt(createdAt) {}
+    int projectId;
     QString projectName;
     QString projectDesription;
     int estimateTime;
     QDate createdAt;
+    QDate updatedAt;
 };
 
 #endif // PROJECTDTO_H

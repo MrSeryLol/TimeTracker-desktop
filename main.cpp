@@ -24,15 +24,15 @@ int main(int argc, char *argv[])
 
     ProjectAPI project;
     //project.getProjects();
-    ProjectDTO dto("Создать программу", "Описать этапы проектирования", 20, QDate::fromString("2023-04-11T16:38:44.071Z"));
+    //ProjectDTO dto("Создать программу", "Описать этапы проектирования", 20, QDate::fromString("2023-04-11T16:38:44.071Z"));
     //dto.projectName = "Создать программу";
     //dto.projectDesription = "Описать этапы проектирования";
     //dto.estimateTime = 20;
     //dto.createdAt = QDate::fromString("2023-04-11T16:38:44.071Z");
-    QList<ProjectDTO>* list = new QList<ProjectDTO>();
-    list->append(dto);
+    //QList<ProjectDTO>* list = new QList<ProjectDTO>();
+    //list->append(dto);
 
-    ProjectsModel projectModel(list);
+    //ProjectsModel projectModel(list);
     engine.rootContext()->setContextProperty("_project", &project);
     //engine.rootContext()->setContextProperty("_model", &projectModel);
 

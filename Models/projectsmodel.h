@@ -11,10 +11,12 @@ class ProjectsModel : public QAbstractListModel
 public:
     enum Roles
     {
-        ProjectNameRole = Qt::UserRole,
+        ProjectIdRole = Qt::UserRole,
+        ProjectNameRole,
         ProjectDesriptionRole,
         ProjectTimeRole,
-        ProjectDateRole
+        ProjectCreatedDateRole,
+        ProjectUpdatedDateRole
     };
 
     explicit ProjectsModel(QList<ProjectDTO>* projectsList, QObject *parent = nullptr);
@@ -27,6 +29,11 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+
+
+public slots:
+    int size() const;   // to access from QML javascript
+    QVariant getData(int index, int role);  // to access from QML javascript
 
 
 private:

@@ -22,6 +22,7 @@ Item {
 
         onClicked: {
             printInfo()
+            stack.push(mainView)
         }
     }
 

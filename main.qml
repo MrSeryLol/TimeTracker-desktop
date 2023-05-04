@@ -78,10 +78,10 @@ ApplicationWindow {
         //           anchors.margins: 20
         //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
         //           anchors.fill: parent
-        initialItem: mainview
+        initialItem: mainView
     }
     TimeTrackerPage {
-        id: mainview
+        id: mainView
         //onTimeTrackerPageReady: () => _project.getProjects()
 
 

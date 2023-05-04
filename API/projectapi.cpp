@@ -1,79 +1,9 @@
 #include "projectapi.h"
 
-
-
-ProjectAPI::ProjectAPI(QObject *parent)
+ProjectAPI::ProjectAPI(QObject* parent)
     : QObject{parent}
-      //_model({}, parent)
 {
-    _items = new QList<ProjectDTO>();
-
-    connect(&_manager, &QNetworkAccessManager::finished, this, &ProjectAPI::Fetch);
-    connect(this, &ProjectAPI::NewJson, this, &ProjectAPI::ParseJson);
-    connect(this, &ProjectAPI::ProjectsListReady, this, &ProjectAPI::CreateModel);
-    //QDate date = QDate::fromString("2023-04-11T16:38:44.071Z");
-    //_items->append(ProjectData("Создать программу", "Описать этапы проектирования и прочего", 20, date));
-
-//    for(auto item : *_items)
-//    {
-//        QString string = QString("%1 %2 %3 %4").arg(item.projectName).arg(item.projectDesription).arg(item.estimateTime).arg(item.createdAt.year());
-//        qDebug() << string;
-//        //qDebug() << std::printf("%s %s %d %s", item.projectName, item.projectDesription, item.estimateTime, item.createdAt);
-//    }
-    //connect(&_manager, &QNetworkAccessManager::finished, this, &ProjectAPI::Fetch);
-    //connect(this, &ProjectAPI::NewJson, this, &ProjectAPI::PrintJson);
-}
-
-
-void ProjectAPI::Fetch(QNetworkReply* res)
-{
-    if(res->error())
-    {
-        qDebug() << res->error();
-        res->deleteLater();
-        return;
-    }
-
-    QByteArray info = res->readAll();
-    QString string = info;
-    qDebug() << string;
-    res->deleteLater();
-    emit NewJson(info);
-}
-
-void ProjectAPI::CreateModel()
-{
-    _model = new ProjectsModel(_items, this);
-    emit modelReady(_model);
-    //qDebug() << _model->data(0, Qt::UserRole);
-}
-
-QByteArray ProjectAPI::ParseJson(const QByteArray &json)
-{
-    QJsonArray info = QJsonDocument::fromJson(json).array();
-    for(auto value : info)
-    {
-        QString projectName = value.toObject()["project_name"].toString();
-        QString projectDesription = value.toObject()["project_description"].toString();
-        int estimateTime = value.toObject()["estimate_time"].toInt();
-        QDate createdAt = QDate::fromString(value.toObject()["createdAt"].toString(), Qt::DateFormat::ISODate);
-
-
-
-        _items->append(ProjectDTO(projectName, projectDesription, estimateTime, createdAt));
-    }
-
-    for(auto item : *_items)
-    {
-        QString string = QString("%1 %2 %3 %4").arg(item.projectName).arg(item.projectDesription).arg(item.estimateTime).arg(item.createdAt.toString());
-        qDebug() << string;
-        //qDebug() << std::printf("%s %s %d %s", item.projectName, item.projectDesription, item.estimateTime, item.createdAt);
-    }
-
-    qDebug() << _items;
-
-    emit ProjectsListReady();
-    return QByteArray();
+    _projects = new QList<ProjectDTO>();
 }
 
 ProjectsModel *ProjectAPI::model() const
@@ -81,43 +11,106 @@ ProjectsModel *ProjectAPI::model() const
     return _model;
 }
 
+
+void ProjectAPI::createProjectDetailsModel()
+{
+
+}
+
+//Получение всех проектов
 void ProjectAPI::getProjects()
 {
-    //_manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/56")));
-    _res = _manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/")));
-//    connect(&_manager, &QNetworkAccessManager::finished, this, &ProjectAPI::Fetch);
-//    connect(this, &ProjectAPI::NewJson, this, &ProjectAPI::ParseJson);
-//    connect(this, &ProjectAPI::ProjectsListReady, this, &ProjectAPI::CreateModel);
+    //Отправка get-запроса на сервер
+    QNetworkReply* res = _manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/")));
+
+    QtFuture::connect(res, &QNetworkReply::finished)
+            .then([res]() {
+                //Считываем полученные данные
+                res->deleteLater();
+                return res->readAll();
+            })
+            .then(QtFuture::Launch::Async, [this](const QByteArray &json) {
+                //Парсим полученный Json в модель ProjectDTO
+                QJsonArray info = QJsonDocument::fromJson(json).array();
+
+                qDebug() << 1;
+
+                for(auto value : info)
+                {
+                    //qDebug() << value.toObject();
+                    int projectId = value.toObject()["project_id"].toInt();
+                    QString projectName = value.toObject()["project_name"].toString();
+                    QString projectDesription = value.toObject()["project_description"].toString();
+                    int estimateTime = value.toObject()["estimate_time"].toInt();
+                    QDate createdAt = QDate::fromString(value.toObject()["createdAt"].toString(), Qt::DateFormat::ISODate);
+                    QDate updatedAt = QDate::fromString(value.toObject()["updatedAt"].toString(), Qt::DateFormat::ISODate);
+
+                    _projects->append(ProjectDTO{projectId, projectName, projectDesription, estimateTime, createdAt, updatedAt});
+                }
+
+                for(auto item : *_projects)
+                {
+                    QString string = QString("%1 %2 %3 %4 %5 %6").arg(item.projectId).arg(item.projectName).arg(item.projectDesription).arg(item.estimateTime).arg(item.createdAt.toString()).arg(item.updatedAt.toString());
+                    //qDebug() << string;
+                }
+                return _projects;
+            })
+            .then(this, [this](QList<ProjectDTO>* _projects) {
+                //Создаём модель для отображения проектов и отправляем их в QML
+                _model = new ProjectsModel(_projects, this);
+                emit modelReady(_model);
+            });
 }
 
-//QByteArray ProjectAPI::ToJson(const QByteArray &json)
-//{
-//    QJsonObject info = QJsonDocument::fromJson(json).object();
-//    qDebug() << info;
-
-//}
-//            .then([this] {
-//        //QString string = _res->readAll();
-//        //qDebug() << string;
-//            return _res->readAll();
-//            })
-    //QString string = future.;
-    //connect(_res, &QNetworkReply::readyRead, this, &ProjectAPI::Fetch);
-    //qDebug() << _JsonDocument.isEmpty();
-//    if (_res->isFinished())
-//    {
-//        qDebug() << _res->readAll();
-//        _res->close();
-//    }
-    //qDebug() << _res->readAll();
-    //QJsonDocument::fromJson(response)
-    //qDebug() << response;
-
-
-
-
-void ProjectAPI::PrintJson()
+void ProjectAPI::getProjectById(int id)
 {
-      auto json = _JsonDocument.toJson(QJsonDocument::Indented);
-      qDebug() << json;
+    QString link = baseURL + QString("/api/projects/%1").arg(id);
+    //Отправляем get-запрос на сервер
+    QNetworkReply* res = _manager.get(QNetworkRequest(QUrl(link)));
+
+    QtFuture::connect(res, &QNetworkReply::finished)
+            .then([res]() {
+                //Считываем полученные данные
+                res->deleteLater();
+                return res->readAll();
+            })
+            .then(QtFuture::Launch::Async, [this](const QByteArray &json) {
+                //Парсим полученный Json в модель ProjectDetailsDTO
+                ProjectDetailsDTO projectDetailsDTO;
+
+                QString string = json;
+                qDebug() << string;
+                QJsonObject projectInfo = QJsonDocument::fromJson(json).object();
+
+                int projectId = projectInfo["project_id"].toInt();
+                QString projectName = projectInfo["project_name"].toString();
+                QString projectDescription = projectInfo["project_description"].toString();
+                int estimateTime = projectInfo["estimate_time"].toInt();
+                QDate createdAt = QDate::fromString(projectInfo["createdAt"].toString(), Qt::DateFormat::ISODate);
+                QDate updatedAt = QDate::fromString(projectInfo["updatedAt"].toString(), Qt::DateFormat::ISODate);
+
+                projectDetailsDTO.project = ProjectDTO{projectId, projectName, projectDescription, estimateTime, createdAt, updatedAt};
+
+                QJsonArray tasksInfo = projectInfo["tasks"].toArray();
+
+                for (const auto &value : tasksInfo)
+                {
+                    int taskId = value.toObject()["task_id"].toInt();
+                    QString taskName = value.toObject()["task_name"].toString();
+                    QString taskDescription = value.toObject()["task_description"].toString();
+                    QString priority = value.toObject()["priority"].toString();
+                    QDate createdAt = QDate::fromString(value.toObject()["createdAt"].toString(), Qt::DateFormat::ISODate);
+                    QDate updatedAt = QDate::fromString(value.toObject()["updatedAt"].toString(), Qt::DateFormat::ISODate);
+                    projectDetailsDTO.tasks.append(TaskDTO{taskId, taskName, taskDescription, priority, createdAt, updatedAt});
+                }
+
+                return projectDetailsDTO;
+            })
+            .then(this, [this](const ProjectDetailsDTO &projectDetailsDTO) {
+                //Создаём модель для отображения проектов и отправляем их в QML
+                ProjectDetailsModel *model = new ProjectDetailsModel(projectDetailsDTO, this);
+                qDebug() << model->getProjectName();
+                emit projectDetailsModelReady(model);
+            });
 }
+
