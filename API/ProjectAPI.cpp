@@ -84,7 +84,7 @@ void ProjectAPI::getProjectById(int id)
                 ProjectDetailsDTO projectDetailsDTO;
 
                 QString string = json;
-                qDebug() << string;
+                //qDebug() << string;
                 QJsonObject projectInfo = QJsonDocument::fromJson(json).object();
 
                 int projectId = projectInfo["project_id"].toInt();

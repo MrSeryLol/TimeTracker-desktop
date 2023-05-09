@@ -47,7 +47,7 @@ signals:
     void projectDetailsModelReady(ProjectDetailsModel* projectDetails);
     void newJsonWithProjectDetails(QByteArray info);
     void projectDetailsReady();
-
+//
 };
 
 #endif // PROJECTAPI_H

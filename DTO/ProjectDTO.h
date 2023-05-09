@@ -13,6 +13,7 @@ public:
     int estimateTime;
     QDate createdAt;
     QDate updatedAt;
+
 };
 
 #endif // PROJECTDTO_H
