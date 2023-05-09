@@ -9,7 +9,7 @@ class ProjectDetailsDTO
 {
 public:
     ProjectDTO project;
-    QList<TaskDTO> tasks;
+    QList<TaskDTO>* tasks;
 };
 
 #endif // PROJECTDETAILSDTO_H

@@ -9,7 +9,7 @@ class ProjectDTO
 public:
     int projectId;
     QString projectName;
-    QString projectDesription;
+    QString projectDesсription;
     int estimateTime;
     QDate createdAt;
     QDate updatedAt;

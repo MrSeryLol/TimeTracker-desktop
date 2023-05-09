@@ -9,10 +9,15 @@ Item {
     //property var model: view.model
 
 
+
+
+
+
     Connections {
         target: _project
         function onModelReady(m) {
-            view.model = m
+            projectView.model = m
+
             //console.log(model.projectName)
             //console.log("Вызван сигнал модели")
         }
@@ -84,11 +89,11 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-//                Rectangle {
-//                    anchors.fill: _
-//                    color: "transparent"
-//                    border.color: "yellow"
-//                }
+                //                Rectangle {
+                //                    anchors.fill: _
+                //                    color: "transparent"
+                //                    border.color: "yellow"
+                //                }
 
                 Rectangle {
                     id: projectsList
@@ -119,78 +124,73 @@ Item {
                         //anchors.bottomMargin: projectLabel.height
                     }
                     GridView {
-                            id: view
-                            //implicitHeight: projectsList.height
-                            //implicitWidth: projectsList.width
-                            cellWidth: projectsList.width / 3
-                            cellHeight: projectsList.height / 3
-                            anchors { top: projectLabel.bottom; bottom: projectsList.bottom; left: projectsList.left; right: projectsList.right }
-                            anchors.topMargin: 10
-                            //model: model
-                            delegate: Rectangle {
-                                id: item
-                                implicitHeight: view.cellHeight
-                                implicitWidth: view.cellWidth
-                                color: "#2b1f30"
-                                Text {
-                                    id: projectName
-                                    color: "#c2c2c2"
-                                    text: `${model.projectName}`
-                                    font.bold: true
-                                    font.pixelSize: 17
-                                    //anchors.horizontalCenter: parent.horizontalCenter
-                                    //verticalAlignment: Text.AlignHCenter
-                                    //horizontalAlignment: Text.AlignVCenter//Дата создания\n${model.projectDate.toLocaleDateString(Qt.locale("ru_RU"))}`
-                                }
-                                Text {
-                                    id: projectDate
-                                    color: "#c2c2c2"
-                                    text: `Дата создания:\n${model.projectDate.toLocaleString()}`
-                                    anchors.top: projectName.bottom
-                                }
-
-                                MouseArea {
-                                    id: mouseArea
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onEntered: {
-                                        view.currentIndex = index
-
-                                        parent.color = "#6d7dad"
-                                        console.log(mouseArea.containsMouse)
-                                    }
-                                    onExited: {
-                                        //parent.gradient = projectsList.gradient
-                                        parent.color = "#2b1f30"
-                                    }
-
-                                    onClicked: {
-                                        //console.log(model.projectId)
-                                        //_project.getProjects()
-                                        //_project.getProjectById(model.projectId)
-                                        popup.open(model.projectId)
-                                    }
-                                }
-//                                Rectangle {
-//                                    anchors.fill: mouseArea
-//                                    color: "transparent"
-//                                    border.color: "yellow"
-//                                }
+                        id: projectView
+                        //implicitHeight: projectsList.height
+                        //implicitWidth: projectsList.width
+                        cellWidth: projectsList.width / 3
+                        cellHeight: projectsList.height / 3
+                        anchors { top: projectLabel.bottom; bottom: projectsList.bottom; left: projectsList.left; right: projectsList.right }
+                        anchors.topMargin: 10
+                        //model: model
+                        delegate: Rectangle {
+                            id: item
+                            implicitHeight: projectView.cellHeight
+                            implicitWidth: projectView.cellWidth
+                            color: "#2b1f30"
+                            Text {
+                                id: projectName
+                                color: "#c2c2c2"
+                                text: `${model.projectName}`
+                                font.bold: true
+                                font.pixelSize: 17
+                                //anchors.horizontalCenter: parent.horizontalCenter
+                                //verticalAlignment: Text.AlignHCenter
+                                //horizontalAlignment: Text.AlignVCenter//Дата создания\n${model.projectDate.toLocaleDateString(Qt.locale("ru_RU"))}`
                             }
-                            focus: true
-                            clip: true
-                            onCurrentIndexChanged: {
-
-                                //console.log(currentIndex)
+                            Text {
+                                id: projectDate
+                                color: "#c2c2c2"
+                                text: `Дата создания:\n${model.projectDate.toLocaleString()}`
+                                anchors.top: projectName.bottom
                             }
 
+                            MouseArea {
+                                id: mouseArea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    projectView.currentIndex = index
 
-//                                            Rectangle {
-//                                                anchors.fill: view
-//                                                color: "transparent"
-//                                                border.color: "yellow"
-//                                            }
+                                    parent.color = "#6d7dad"
+                                    console.log(mouseArea.containsMouse)
+                                }
+                                onExited: {
+                                    //parent.gradient = projectsList.gradient
+                                    parent.color = "#2b1f30"
+                                }
+
+                                onClicked: {
+                                    //console.log(model.projectId)
+                                    //_project.getProjects()
+                                    //_project.getProjectById(model.projectId)
+                                    popup.open(model.projectId)
+                                }
+                            }
+                            //                                Rectangle {
+                            //                                    anchors.fill: mouseArea
+                            //                                    color: "transparent"
+                            //                                    border.color: "yellow"
+                            //                                }
                         }
+                        focus: true
+                        clip: true
+
+                        //                                            Rectangle {
+                        //                                                anchors.fill: view
+                        //                                                color: "transparent"
+                        //                                                border.color: "yellow"
+                        //                                            }
+                    }
                     Loader {
                         id: loader
 
@@ -213,10 +213,7 @@ Item {
                     Layout.row: 0
                     Layout.columnSpan: 1
                     Layout.rowSpan: 2
-
                     Layout.fillHeight: true
-
-
                     Label {
                         text: "Недавняя активность"
                     }
@@ -225,8 +222,7 @@ Item {
                 Rectangle {
                     id: timer
                     radius: 4
-
-                    color: "white"
+                    color: "#2b1f30"
                     Layout.preferredHeight: timeTrackerPage.height / 3.5
                     Layout.preferredWidth: timeTrackerPage.width / 6
                     Layout.column: 0
@@ -236,19 +232,17 @@ Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    Label {
-                        text: "Таймер"
+                    TimeTrackerPart {
+                        id: timeTrackerPart
+                        anchors.fill: parent
                     }
-
                 }
-
             }
         }
     }
 
     Component.onCompleted: {
         _project.getProjects()
-        view.currentIndex = -1
         console.log("Компонент загружен")
     }
 }

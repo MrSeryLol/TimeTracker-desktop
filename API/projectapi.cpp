@@ -11,6 +11,11 @@ ProjectsModel *ProjectAPI::model() const
     return _model;
 }
 
+ProjectDetailsModel *ProjectAPI::projectDetailsModel()
+{
+    return _projectDetails;
+}
+
 
 void ProjectAPI::createProjectDetailsModel()
 {
@@ -50,7 +55,7 @@ void ProjectAPI::getProjects()
 
                 for(auto item : *_projects)
                 {
-                    QString string = QString("%1 %2 %3 %4 %5 %6").arg(item.projectId).arg(item.projectName).arg(item.projectDesription).arg(item.estimateTime).arg(item.createdAt.toString()).arg(item.updatedAt.toString());
+                    QString string = QString("%1 %2 %3 %4 %5 %6").arg(item.projectId).arg(item.projectName).arg(item.projectDesсription).arg(item.estimateTime).arg(item.createdAt.toString()).arg(item.updatedAt.toString());
                     //qDebug() << string;
                 }
                 return _projects;
@@ -74,7 +79,7 @@ void ProjectAPI::getProjectById(int id)
                 res->deleteLater();
                 return res->readAll();
             })
-            .then(QtFuture::Launch::Async, [this](const QByteArray &json) {
+            .then(QtFuture::Launch::Async, [](const QByteArray &json) {
                 //Парсим полученный Json в модель ProjectDetailsDTO
                 ProjectDetailsDTO projectDetailsDTO;
 
@@ -91,6 +96,7 @@ void ProjectAPI::getProjectById(int id)
 
                 projectDetailsDTO.project = ProjectDTO{projectId, projectName, projectDescription, estimateTime, createdAt, updatedAt};
 
+                projectDetailsDTO.tasks = new QList<TaskDTO>();
                 QJsonArray tasksInfo = projectInfo["tasks"].toArray();
 
                 for (const auto &value : tasksInfo)
@@ -101,7 +107,7 @@ void ProjectAPI::getProjectById(int id)
                     QString priority = value.toObject()["priority"].toString();
                     QDate createdAt = QDate::fromString(value.toObject()["createdAt"].toString(), Qt::DateFormat::ISODate);
                     QDate updatedAt = QDate::fromString(value.toObject()["updatedAt"].toString(), Qt::DateFormat::ISODate);
-                    projectDetailsDTO.tasks.append(TaskDTO{taskId, taskName, taskDescription, priority, createdAt, updatedAt});
+                    projectDetailsDTO.tasks->append(TaskDTO{taskId, taskName, taskDescription, priority, createdAt, updatedAt});
                 }
 
                 return projectDetailsDTO;
@@ -109,7 +115,6 @@ void ProjectAPI::getProjectById(int id)
             .then(this, [this](const ProjectDetailsDTO &projectDetailsDTO) {
                 //Создаём модель для отображения проектов и отправляем их в QML
                 ProjectDetailsModel *model = new ProjectDetailsModel(projectDetailsDTO, this);
-                qDebug() << model->getProjectName();
                 emit projectDetailsModelReady(model);
             });
 }

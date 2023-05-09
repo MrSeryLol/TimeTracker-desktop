@@ -25,6 +25,9 @@ public:
     QList<ProjectDTO>* GetProjectsList();
 
     Q_INVOKABLE ProjectsModel *model() const;
+    Q_PROPERTY(ProjectDetailsModel* model READ projectDetailsModel CONSTANT)
+
+    ProjectDetailsModel* projectDetailsModel();
 
 private:
     QNetworkAccessManager _manager;

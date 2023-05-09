@@ -5,5 +5,14 @@
         <file>ui/Views/TimeTrackerPage.qml</file>
         <file>ui/Views/TemplatePage.qml</file>
         <file>ui/Views/TaskPopup.qml</file>
+        <file>ui/Assets/project_icon.png</file>
+        <file>ui/Assets/description_icon.png</file>
+        <file>ui/Assets/stopwatch_icon.png</file>
+        <file>ui/Assets/start_button_icon.png</file>
+        <file>ui/Assets/pause_button_icon.png</file>
+        <file>ui/Assets/stop_button_icon.png</file>
+        <file>ui/Assets/sleep_icon.png</file>
+        <file>ui/Assets/in_work_icon.png</file>
+        <file>ui/Views/TimeTrackerPart.qml</file>
     </qresource>
 </RCC>

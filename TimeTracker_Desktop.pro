@@ -7,7 +7,9 @@ QT += quick network
 SOURCES += \
         API/projectapi.cpp \
         Models/ProjectDetailsModel.cpp \
+        Models/TasksModel.cpp \
         Models/projectsmodel.cpp \
+        Utils/TimeTracker/TimeTracker.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -31,4 +33,6 @@ HEADERS += \
     DTO/ProjectDetailsDTO.h \
     DTO/TaskDTO.h \
     Models/ProjectDetailsModel.h \
-    Models/projectsmodel.h
+    Models/TasksModel.h \
+    Models/projectsmodel.h \
+    Utils/TimeTracker/TimeTracker.h

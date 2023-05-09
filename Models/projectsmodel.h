@@ -13,7 +13,7 @@ public:
     {
         ProjectIdRole = Qt::UserRole,
         ProjectNameRole,
-        ProjectDesriptionRole,
+        ProjectDescriptionRole,
         ProjectTimeRole,
         ProjectCreatedDateRole,
         ProjectUpdatedDateRole

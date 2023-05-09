@@ -3,6 +3,8 @@
 #include <QtCore>
 #include <QQmlContext>
 #include "./API/projectapi.h"
+#include "./Models/ProjectDetailsModel.h"
+#include "./Utils/TimeTracker/TimeTracker.h"
 
 
 int main(int argc, char *argv[])
@@ -23,6 +25,9 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     ProjectAPI project;
+    TimeTracker timer;
+    qDebug() << timer.getTaskName();
+    //ProjectDetailsModel projectDetails;
     //project.getProjects();
     //ProjectDTO dto("Создать программу", "Описать этапы проектирования", 20, QDate::fromString("2023-04-11T16:38:44.071Z"));
     //dto.projectName = "Создать программу";
@@ -34,6 +39,8 @@ int main(int argc, char *argv[])
 
     //ProjectsModel projectModel(list);
     engine.rootContext()->setContextProperty("_project", &project);
+    engine.rootContext()->setContextProperty("_timeTracker", &timer);
+    //engine.rootContext()->setContextProperty("_projectDetailsModel", project.projectDetailsModel());
     //engine.rootContext()->setContextProperty("_model", &projectModel);
 
 

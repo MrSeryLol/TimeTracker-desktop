@@ -38,17 +38,17 @@ QVariant ProjectsModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
         case ProjectIdRole:
-        return dto.projectId;
+            return dto.projectId;
         case ProjectNameRole:
-        return dto.projectName;
-        case ProjectDesriptionRole:
-        return dto.projectDesription;
+            return dto.projectName;
+        case ProjectDescriptionRole:
+            return dto.projectDesсription;
         case ProjectTimeRole:
-        return dto.estimateTime;
+            return dto.estimateTime;
         case ProjectCreatedDateRole:
-        return dto.createdAt;
+            return dto.createdAt;
         case ProjectUpdatedDateRole:
-        return dto.updatedAt;
+            return dto.updatedAt;
         default:
             return QVariant();
     }
@@ -60,7 +60,7 @@ QHash<int, QByteArray> ProjectsModel::roleNames() const
     {
         {ProjectIdRole, "projectId"},
         {ProjectNameRole, "projectName"},
-        {ProjectDesriptionRole, "projectDescription"},
+        {ProjectDescriptionRole, "projectDescription"},
         {ProjectTimeRole, "projectTime"},
         {ProjectCreatedDateRole, "projectDate"},
         {ProjectUpdatedDateRole, "projectUpdateDate"}

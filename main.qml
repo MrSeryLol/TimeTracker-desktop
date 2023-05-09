@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 
 import "./ui/TopBar"
 import "./ui/Views"
+//import "./ui/Assets"
 
 ApplicationWindow {
     id: root

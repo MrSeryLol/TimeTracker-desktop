@@ -11,7 +11,6 @@ public:
     QString taskName;
     QString taskDescription;
     QString priority;
-    //int mainTaskId;
     QDate createdAt;
     QDate updatedAt;
 };

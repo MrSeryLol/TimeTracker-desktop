@@ -1,38 +1,36 @@
 #ifndef PROJECTDETAILSMODEL_H
 #define PROJECTDETAILSMODEL_H
 
-#include "DTO/ProjectDetailsDTO.h"
+#include "./DTO/ProjectDTO.h"
+#include "./DTO/ProjectDetailsDTO.h"
+#include "Models/TasksModel.h"
 #include <QObject>
 #include <QAbstractListModel>
 
-class ProjectDetailsModel : public QAbstractListModel
+class ProjectDetailsModel : public QObject
 {
     Q_OBJECT
 public:
     explicit ProjectDetailsModel(ProjectDetailsDTO projectDetails, QObject *parent = nullptr);
 
     Q_PROPERTY(QString projectName READ getProjectName CONSTANT)
-
-    enum Roles {
-        TaskIdRole = Qt::UserRole,
-        TaskNameRole,
-        TaskDescriptionRole,
-        TaskPriorityRole,
-        ProjectCreatedDateRole,
-        ProjectUpdatedDateRole
-    };
-
-signals:
+    Q_PROPERTY(QString projectDescription READ getProjectDescription CONSTANT)
+    Q_PROPERTY(int projectEstimateTime READ getProjectEstimateTime CONSTANT)
+    Q_PROPERTY(QDate projectCreatedDate READ getProjectCreatedDate CONSTANT)
+    Q_PROPERTY(QDate projectUpdatedDate READ getProjectUpdatedDate CONSTANT)
+    Q_PROPERTY(TasksModel* list READ list CONSTANT)
 
 public:
-    int rowCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
     QString getProjectName() const;
-
+    QString getProjectDescription() const;
+    int getProjectEstimateTime() const;
+    QDate getProjectCreatedDate() const;
+    QDate getProjectUpdatedDate() const;
+    TasksModel* list() const;
 
 private:
-    ProjectDetailsDTO _projectDetails;
+    ProjectDTO _project;
+    TasksModel* _tasks;
 };
 
 #endif // PROJECTDETAILSMODEL_H
