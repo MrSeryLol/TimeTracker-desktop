@@ -5,6 +5,7 @@ QT += quick network
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        API/HistoryOfWorkAPI.cpp \
         API/ProjectAPI.cpp \
         Models/ProjectDetailsModel.cpp \
         Models/TasksModel.cpp \
@@ -26,9 +27,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    API/HistoryOfWorkAPI.h \
     API/IBaseAPI.h \
     API/BaseURL.h \
     API/ProjectAPI.h \
+    DTO/HistoryOfWorkDTO.h \
     DTO/ProjectDTO.h \
     DTO/ProjectDetailsDTO.h \
     DTO/TaskDTO.h \

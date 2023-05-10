@@ -1,6 +1,7 @@
 #ifndef TIMETRACKER_H
 #define TIMETRACKER_H
 
+#include "DTO/HistoryOfWorkDTO.h"
 #include "Models/TasksModel.h"
 #include "Models/projectsmodel.h"
 #include "DTO/TaskDTO.h"
@@ -28,7 +29,7 @@ public:
 
     Q_PROPERTY(QString projectName READ getProjectName WRITE setProjectName NOTIFY projectNameChanged);
     Q_PROPERTY(QString taskName READ getTaskName WRITE setTaskName NOTIFY taskNameChanged);
-    Q_PROPERTY(QTime mainTime MEMBER _allWorkingTime NOTIFY timeChanged)
+    Q_PROPERTY(int mainTime MEMBER _allWorkingTime NOTIFY timeChanged)
     Q_PROPERTY(bool isRunning MEMBER _isRunning NOTIFY runningChanged)
     Q_PROPERTY(bool isTaskSelected MEMBER _isTaskSelected NOTIFY taskSelected)
     Q_PROPERTY(bool isActive MEMBER _isActive NOTIFY statusChanged)
@@ -39,13 +40,15 @@ public:
     void setProjectName(const QString &projectName);
 
 private:
-    QElapsedTimer _workingTime;
-    QElapsedTimer _pauseTime;
     TaskDTO _task;
     ProjectDTO _project;
-    QString _projectName;
-    QTime _allWorkingTime;
-    QTime _allPauseTime;
+    HistoryOfWorkDTO _history;
+
+    QElapsedTimer _workingTime;
+    QElapsedTimer _pauseTime;
+    int _allWorkingTime = 0;
+    int _allPauseTime = 0;
+    int _efficientTime = 0;
 
     bool isPaused = true;
     bool _isRunning = false;
@@ -55,6 +58,8 @@ private:
     QTimer *timer;
     QDateTime _startDateTime;
     QDateTime _endDateTime;
+    //QDateTime _startPauseTime;
+    //QDate
 
 signals:
     void projectNameChanged();
@@ -63,6 +68,7 @@ signals:
     void runningChanged();
     void taskSelected();
     void statusChanged();
+    void stopWorking(const HistoryOfWorkDTO &history);
 };
 
 #endif // TIMETRACKER_H

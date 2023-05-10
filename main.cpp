@@ -2,9 +2,10 @@
 #include <QQmlApplicationEngine>
 #include <QtCore>
 #include <QQmlContext>
-#include "./API/projectapi.h"
+#include "./API/ProjectAPI.h"
 #include "./Models/ProjectDetailsModel.h"
 #include "./Utils/TimeTracker/TimeTracker.h"
+#include "API/HistoryOfWorkAPI.h"
 
 
 int main(int argc, char *argv[])
@@ -25,6 +26,8 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     ProjectAPI project;
+    HistoryOfWorkAPI history;
+    //history.saveActivity();
     TimeTracker timer;
     qDebug() << timer.getTaskName();
     //ProjectDetailsModel projectDetails;

@@ -31,6 +31,10 @@ Item {
         }
     }
 
+    function getTime(mSeconds) {
+        return new Date(mSeconds).toISOString().slice(11, 19);
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 5
@@ -83,7 +87,7 @@ Item {
             Layout.alignment: Qt.AlignCenter | Qt.AlignTop
             Label {
                 id: stopWatch
-                text: `Времени прошло: ${_timeTracker.mainTime.toLocaleTimeString()}`
+                text: _timeTracker.mainTime === 0 ? "" : `Времени прошло: ${getTime(_timeTracker.mainTime)}`
                 font.bold: true
                 color: "#c2c2c2"
                 font.pixelSize: 24
