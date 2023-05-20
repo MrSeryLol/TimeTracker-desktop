@@ -3,303 +3,88 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
-import "./ui/TopBar"
-import "./ui/Views"
-//import "./ui/Assets"
+import AuthAPI 1.0
+import "./ui/Errors"
 
-ApplicationWindow {
+Window {
     id: root
-    width: 1280
-    height: 720
+
+    Connections {
+        target: AuthAPI
+        function onFailVerification(error) {
+            errorMessage.text = error
+        }
+
+        function onSuccessVerification() {
+            var component = Qt.createComponent("./ui/Views/MainPage.qml")
+            component.createObject()
+            root.close()
+        }
+    }
+
+    title: "Вход в систему"
+    width: 600
+    height: 400
     visible: true
-    title: qsTr("Hello World")
+    maximumHeight: height
+    maximumWidth: width
+    minimumHeight: height
+    minimumWidth: width
+    flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowSystemMenuHint
 
-    header: MenuButtons {
-        id: menu
+    ColumnLayout {
+        id: lay
+        anchors.fill: parent
+
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        ColumnLayout {
+            Layout.alignment: Qt.AlignCenter
+
+            Text {
+                id: loginLabel
+                text: "Логин"
+            }
+
+            TextField {
+                id: loginInput
+                placeholderText: "Введите свой логин"
+            }
+
+            Text {
+                id: passwordLabel
+                text: "Пароль"
+            }
+
+            TextField {
+                id: passwordInput
+                placeholderText: "Введите свой пароль"
+            }
+
+            Button {
+                id: signInBtn
+                Layout.preferredWidth: passwordInput.width
+                text: "Войти"
+                onClicked: {
+                    console.log("Введён пароль")
+                    AuthAPI.signIn(loginInput.text, passwordInput.text)
+                }
+            }
+        }
+
+        ColumnLayout {
+            Layout.alignment: Qt.AlignCenter | Qt.AlignTop
+            ErrorMessage {
+                id: errorMessage
+            }
+        }
+
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
     }
-
-//    ListModel {
-//        id: names
-//        ListElement { name: "Сергей" }
-//    }
-
-//    ListView {
-//        //width: 100
-//        //height: 100
-
-//        model: names
-
-//        delegate: Text {
-//            text: model.name
-//        }
-
-//    }
-
-
-
-    //    Rectangle {
-    //        anchors.fill: menu
-    //        border.width: 4
-    //        border.color: "yellow"
-    //        color: "transparent"
-    //    }
-
-    //    RowLayout {
-    //        anchors.fill: parent
-
-    //        StackView {
-    //               id: stack
-    //               width: root.width
-    //               height: root.height
-    //    //           anchors.left: root.left
-    //    ////           anchors.top: menu.bottom
-    //    //           anchors.margins: 20
-    //    //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
-    //    //           anchors.fill: parent
-    //               initialItem: mainview
-    //        }
-    //        TimeTrackerPage {
-    //            id: mainview
-    //            backgroundColor: "black"
-    //            anchors.left: root.left
-    ////            anchors.top: root.top
-    //    //        width: menu.
-    //    //        height: 50
-    //        }
-    //    }
-
-
-
-    StackView {
-        id: stack
-        width: root.width
-        height: root.height - menu.height
-        //           anchors.left: root.left
-        ////           anchors.top: menu.bottom
-        //           anchors.margins: 20
-        //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
-        //           anchors.fill: parent
-        initialItem: mainView
-    }
-    TimeTrackerPage {
-        id: mainView
-        //onTimeTrackerPageReady: () => _project.getProjects()
-
-
-        //onTimeTrakckerPageReady: _project.getProjects();
-//        onTimeTrakckerPageReady: _project.getProjects();
-//        ListView {
-//            anchors.fill: parent
-//            model: _project.model
-//            delegate: Text {
-//                text: _project.model.projectName
-//            }
-//        }
-    }
-
-
-
-//        //            Button {
-//        //                   text: "Open"
-//        //                   onClicked: popup.open()
-//        //               }
-
-//        //               Popup {
-//        //                   id: popup
-//        //                   x: 100
-//        //                   y: 100
-//        //                   width: 200
-//        //                   height: 300
-//        //                   modal: true
-//        //                   focus: true
-//        //                   closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-//        //               }
-//        //            backgroundColor: "black"
-//    }
-
-    //onTimeTrakckerPageReady: _project.getProjects();
-//    ListView {
-//        anchors.fill: parent
-//        model: _project.model
-//        delegate: Text {
-//            text: _project.model.projectName
-//        }
-//    }
-
-//    Connections {
-//        target: _project
-//    }
-
-
-
-
-
-
-
-
-    //    Rectangle {
-    //        anchors.fill: stack
-    //        border.width: 4
-    //        border.color: "yellow"
-    //        color: "transparent"
-    //    }
-
-    //    TimeTrackerPage {
-    //        id: mainview
-    //        backgroundColor: "black"
-    ////        Label {
-    ////            id: label
-    ////            Layout.alignment: Qt.AlignHCenter
-    ////            text: "Выберите проект"
-    ////            font.pointSize: 14
-    ////            font.bold: true
-    ////        }
-    ////        anchors.left: root.left
-    ////        anchors.top: root.top
-    ////        width: menu.
-    ////        height: 50
-    //    }
 }
-
-//    RowLayout {
-//        anchors.fill: parent
-
-//        StackView {
-//               id: stack
-//               width: root.width
-//               height: root.height - menu.height
-//               anchors.left: root.left
-//               anchors.top: header.bottom
-////               anchors.margins: 20
-//    //           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
-//    //           anchors.fill: parent
-//               initialItem: mainview
-//        }
-
-//        TimeTrackerPage {
-//            id: mainview
-//            backgroundColor: "black"
-//    //        anchors.left: root.left
-//    //        anchors.top: menu.top
-//    //        width: menu.
-//    //        height: 50
-//        }
-//    }
-
-
-
-
-//    StackView {
-//           id: stack
-//           width: root.width
-//           height: root.height
-//           anchors.left: root.left
-//           anchors.top: header.bottom
-//           anchors.margins: 20
-////           initialItem: Qt.resolvedUrl("qrc:/ui/Views/TimeTrackerPage.qml")
-////           anchors.fill: parent
-//           initialItem: mainview
-//    }
-
-//    TimeTrackerPage {
-//        id: mainview
-//        backgroundColor: "black"
-////        anchors.left: root.left
-////        anchors.top: menu.top
-////        width: menu.
-////        height: 50
-//    }
-//}
-
-//    TimeTrackerPage {
-//        id: timeTrackerPage
-////        width: root.width
-////        height: root.height
-////        backgroundColor: "red"
-
-//    }
-
-
-
-
-
-//    Component {
-//            id: mainView
-
-//            Row {
-//                spacing: 10
-
-//                Button {
-//                    text: "Push"
-//                    onClicked: stack.push(mainView)
-//                }
-//                Button {
-//                    text: "Pop"
-//                    enabled: stack.depth > 1
-//                    onClicked: stack.pop()
-
-//                }
-//                Text {
-//                    text: stack.depth
-//                }
-//            }
-//    }
-
-
-
-
-
-
-//        text: "Рабочее пространство"
-
-
-//    menuBar: MenuBar {
-//            Menu {
-//                title: qsTr("&File")
-//                Action { text: qsTr("&New...") }
-//                Action { text: qsTr("&Open...") }
-//                Action { text: qsTr("&Save") }
-//                Action { text: qsTr("Save &As...") }
-//                MenuSeparator { }
-//                Action { text: qsTr("&Quit") }
-//            }
-//            Menu {
-//                title: qsTr("&Edit")
-//                Action { text: qsTr("Cu&t") }
-//                Action { text: qsTr("&Copy") }
-//                Action { text: qsTr("&Paste") }
-//            }
-//            Menu {
-//                title: qsTr("&Help")
-//                Action { text: qsTr("&About") }
-//            }
-//            delegate: MenuBarItem {
-//                    id: menuBarItem
-
-//                    enabled: text !== "jjjjjjjj"
-//                }
-//        }
-
-
-//    Button {
-//        id: fileButton
-//        text: "Учёт рабочего времени"
-////        onClicked: menu.open()
-//        onHoveredChanged: menu.open() ? true : false
-
-//        Menu {
-//            id: menu
-//            y: fileButton.height
-
-//            MenuItem {
-//                text: "New..."
-//            }
-//            MenuItem {
-//                text: "Open..."
-//            }
-//            MenuItem {
-//                text: "Save"
-//            }
-//        }
-//    }
-

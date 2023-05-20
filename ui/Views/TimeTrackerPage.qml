@@ -19,7 +19,7 @@ Item {
             projectView.model = m
 
             //console.log(model.projectName)
-            //console.log("Вызван сигнал модели")
+            console.log("Вызван сигнал модели")
         }
     }
 

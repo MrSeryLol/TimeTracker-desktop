@@ -3,6 +3,7 @@
 #include <QtCore>
 #include <QQmlContext>
 #include "./API/ProjectAPI.h"
+#include "./API/AuthAPI.h"
 #include "./Models/ProjectDetailsModel.h"
 #include "./Utils/TimeTracker/TimeTracker.h"
 #include "API/HistoryOfWorkAPI.h"
@@ -17,6 +18,14 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    qmlRegisterSingletonType<AuthAPI>("AuthAPI", 1, 0, "AuthAPI", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+
+        AuthAPI *example = new AuthAPI();
+        return example;
+    });
     //QQmlContext* context = engine.rootContext();
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -30,6 +39,7 @@ int main(int argc, char *argv[])
     //history.saveActivity();
     TimeTracker timer;
     qDebug() << timer.getTaskName();
+    //AuthAPI auth;
     //ProjectDetailsModel projectDetails;
     //project.getProjects();
     //ProjectDTO dto("Создать программу", "Описать этапы проектирования", 20, QDate::fromString("2023-04-11T16:38:44.071Z"));
@@ -43,6 +53,8 @@ int main(int argc, char *argv[])
     //ProjectsModel projectModel(list);
     engine.rootContext()->setContextProperty("_project", &project);
     engine.rootContext()->setContextProperty("_timeTracker", &timer);
+    //engine.rootContext()->setContextProperty("_auth", &auth);
+
     //engine.rootContext()->setContextProperty("_projectDetailsModel", project.projectDetailsModel());
     //engine.rootContext()->setContextProperty("_model", &projectModel);
 

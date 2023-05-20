@@ -12,6 +12,7 @@
 #include "../Models/projectsmodel.h"
 #include "../Models/ProjectDetailsModel.h"
 #include "../API/IBaseAPI.h"
+#include "../API/Token.h"
 #include "DTO/ProjectDetailsDTO.h"
 
 class ProjectAPI : public QObject

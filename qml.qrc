@@ -14,5 +14,7 @@
         <file>ui/Assets/sleep_icon.png</file>
         <file>ui/Assets/in_work_icon.png</file>
         <file>ui/Views/TimeTrackerPart.qml</file>
+        <file>ui/Views/MainPage.qml</file>
+        <file>ui/Errors/ErrorMessage.qml</file>
     </qresource>
 </RCC>

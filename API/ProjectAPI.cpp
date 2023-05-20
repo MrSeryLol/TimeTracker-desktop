@@ -1,4 +1,4 @@
-#include "projectapi.h"
+#include "ProjectAPI.h"
 
 ProjectAPI::ProjectAPI(QObject* parent)
     : QObject{parent}
@@ -25,8 +25,14 @@ void ProjectAPI::createProjectDetailsModel()
 //Получение всех проектов
 void ProjectAPI::getProjects()
 {
+    //Формирование ссылки и заголовка для запроса
+    QUrl url = QUrl(baseURL + "/api/projects/");
+    QNetworkRequest request(url);
+    auto header = QString("Bearer %1").arg(userToken);
+    request.setRawHeader(QByteArray("Authorization"), header.toUtf8());
+
     //Отправка get-запроса на сервер
-    QNetworkReply* res = _manager.get(QNetworkRequest(QUrl(baseURL + "/api/projects/")));
+    QNetworkReply* res = _manager.get(request);
 
     QtFuture::connect(res, &QNetworkReply::finished)
             .then([res]() {
@@ -37,13 +43,12 @@ void ProjectAPI::getProjects()
             .then(QtFuture::Launch::Async, [this](const QByteArray &json) {
                 //Парсим полученный Json в модель ProjectDTO
                 QJsonArray info = QJsonDocument::fromJson(json).array();
-
                 qDebug() << 1;
 
                 for(auto value : info)
                 {
-                    //qDebug() << value.toObject();
-                    int projectId = value.toObject()["project_id"].toInt();
+                    qDebug() << value.toObject();
+                    int projectId = value.toObject()["id"].toInt();
                     QString projectName = value.toObject()["project_name"].toString();
                     QString projectDesription = value.toObject()["project_description"].toString();
                     int estimateTime = value.toObject()["estimate_time"].toInt();
@@ -56,7 +61,7 @@ void ProjectAPI::getProjects()
                 for(auto item : *_projects)
                 {
                     QString string = QString("%1 %2 %3 %4 %5 %6").arg(item.projectId).arg(item.projectName).arg(item.projectDesсription).arg(item.estimateTime).arg(item.createdAt.toString()).arg(item.updatedAt.toString());
-                    //qDebug() << string;
+                    qDebug() << string;
                 }
                 return _projects;
             })
@@ -69,12 +74,18 @@ void ProjectAPI::getProjects()
 
 void ProjectAPI::getProjectById(int id)
 {
-    QString link = baseURL + QString("/api/projects/%1").arg(id);
+    //Формирование ссылки и заголовка для запроса
+    QString url = baseURL + QString("/api/projects/%1/").arg(id);
+    QNetworkRequest request(url);
+    auto header = QString("Bearer %1").arg(userToken);
+    request.setRawHeader(QByteArray("Authorization"), header.toUtf8());
+
     //Отправляем get-запрос на сервер
-    QNetworkReply* res = _manager.get(QNetworkRequest(QUrl(link)));
+    QNetworkReply* res = _manager.get(request);
 
     QtFuture::connect(res, &QNetworkReply::finished)
             .then([res]() {
+                qDebug() << "Завершился";
                 //Считываем полученные данные
                 res->deleteLater();
                 return res->readAll();
@@ -82,12 +93,13 @@ void ProjectAPI::getProjectById(int id)
             .then(QtFuture::Launch::Async, [](const QByteArray &json) {
                 //Парсим полученный Json в модель ProjectDetailsDTO
                 ProjectDetailsDTO projectDetailsDTO;
+                qDebug() << userToken;
 
                 QString string = json;
-                //qDebug() << string;
+                qDebug() << string;
                 QJsonObject projectInfo = QJsonDocument::fromJson(json).object();
 
-                int projectId = projectInfo["project_id"].toInt();
+                int projectId = projectInfo["id"].toInt();
                 QString projectName = projectInfo["project_name"].toString();
                 QString projectDescription = projectInfo["project_description"].toString();
                 int estimateTime = projectInfo["estimate_time"].toInt();
@@ -97,11 +109,11 @@ void ProjectAPI::getProjectById(int id)
                 projectDetailsDTO.project = ProjectDTO{projectId, projectName, projectDescription, estimateTime, createdAt, updatedAt};
 
                 projectDetailsDTO.tasks = new QList<TaskDTO>();
-                QJsonArray tasksInfo = projectInfo["tasks"].toArray();
+                QJsonArray tasksInfo = projectInfo["Tasks"].toArray();
 
                 for (const auto &value : tasksInfo)
                 {
-                    int taskId = value.toObject()["task_id"].toInt();
+                    int taskId = value.toObject()["id"].toInt();
                     QString taskName = value.toObject()["task_name"].toString();
                     QString taskDescription = value.toObject()["task_description"].toString();
                     QString priority = value.toObject()["priority"].toString();
