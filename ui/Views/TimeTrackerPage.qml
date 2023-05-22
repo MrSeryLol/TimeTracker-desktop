@@ -156,7 +156,7 @@ Item {
     }
 
     Component.onCompleted: {
-        _project.getProjects()
+        _project.getAllProjectsForEmployee()
         console.log("Компонент загружен")
     }
 }

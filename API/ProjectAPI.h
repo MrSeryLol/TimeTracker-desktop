@@ -14,6 +14,7 @@
 #include "../API/IBaseAPI.h"
 #include "../API/Token.h"
 #include "DTO/ProjectDetailsDTO.h"
+#include "../Utils/TokenParser/TokenParser.h"
 
 class ProjectAPI : public QObject
 {
@@ -21,7 +22,7 @@ class ProjectAPI : public QObject
 public:
     explicit ProjectAPI(QObject *parent = nullptr);
 
-    Q_INVOKABLE void getProjects();
+    Q_INVOKABLE void getAllProjectsForEmployee();
     Q_INVOKABLE void getProjectById(int id);
     QList<ProjectDTO>* GetProjectsList();
 

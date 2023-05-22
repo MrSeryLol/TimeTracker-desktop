@@ -23,10 +23,10 @@ void ProjectAPI::createProjectDetailsModel()
 }
 
 //Получение всех проектов
-void ProjectAPI::getProjects()
+void ProjectAPI::getAllProjectsForEmployee()
 {
     //Формирование ссылки и заголовка для запроса
-    QUrl url = QUrl(baseURL + "/api/projects/");
+    QString url = baseURL + QString("/api/projects/userProjects/%1").arg(TokenParser::getUserId(userToken));
     QNetworkRequest request(url);
     auto header = QString("Bearer %1").arg(userToken);
     request.setRawHeader(QByteArray("Authorization"), header.toUtf8());
@@ -42,10 +42,12 @@ void ProjectAPI::getProjects()
             })
             .then(QtFuture::Launch::Async, [this](const QByteArray &json) {
                 //Парсим полученный Json в модель ProjectDTO
-                QJsonArray info = QJsonDocument::fromJson(json).array();
+                QJsonObject userInfo = QJsonDocument::fromJson(json).object();
                 qDebug() << 1;
 
-                for(auto value : info)
+                QJsonArray projectsInfo = userInfo["Projects"].toArray();
+
+                for(auto value : projectsInfo)
                 {
                     qDebug() << value.toObject();
                     int projectId = value.toObject()["id"].toInt();

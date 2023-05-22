@@ -13,6 +13,7 @@ SOURCES += \
         Models/TasksModel.cpp \
         Models/ProjectsModel.cpp \
         Utils/TimeTracker/TimeTracker.cpp \
+        Utils/TokenParser/TokenParser.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -42,6 +43,7 @@ HEADERS += \
     Models/ProjectDetailsModel.h \
     Models/TasksModel.h \
     Models/ProjectsModel.h \
-    Utils/TimeTracker/TimeTracker.h
+    Utils/TimeTracker/TimeTracker.h \
+    Utils/TokenParser/TokenParser.h
 
 DISTFILES +=

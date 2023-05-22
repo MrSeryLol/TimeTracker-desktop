@@ -7,6 +7,7 @@
 #include "./Models/ProjectDetailsModel.h"
 #include "./Utils/TimeTracker/TimeTracker.h"
 #include "API/HistoryOfWorkAPI.h"
+#include "./Utils/TokenParser/TokenParser.h"
 
 
 int main(int argc, char *argv[])
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+
 
     ProjectAPI project;
     HistoryOfWorkAPI history;
