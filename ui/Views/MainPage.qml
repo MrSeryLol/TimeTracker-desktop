@@ -94,7 +94,7 @@ ApplicationWindow {
 //            }
 //        }
     }
-   Component.onCompleted: {
-       Qt.destroy("../../main.qml")
-   }
+//   Component.onCompleted: {
+//       Qt.destroy("../../main.qml")
+//   }
 }

@@ -99,12 +99,12 @@ void ProjectAPI::getProjectById(int id)
                 qDebug() << string;
                 QJsonObject projectInfo = QJsonDocument::fromJson(json).object();
 
-                int projectId = projectInfo["id"].toInt();
+                int projectId = projectInfo["project_id"].toInt();
                 QString projectName = projectInfo["project_name"].toString();
                 QString projectDescription = projectInfo["project_description"].toString();
                 int estimateTime = projectInfo["estimate_time"].toInt();
-                QDate createdAt = QDate::fromString(projectInfo["createdAt"].toString(), Qt::DateFormat::ISODate);
-                QDate updatedAt = QDate::fromString(projectInfo["updatedAt"].toString(), Qt::DateFormat::ISODate);
+                QDate createdAt = QDate::fromString(projectInfo["created_at"].toString(), Qt::DateFormat::ISODate);
+                QDate updatedAt = QDate::fromString(projectInfo["updated_at"].toString(), Qt::DateFormat::ISODate);
 
                 projectDetailsDTO.project = ProjectDTO{projectId, projectName, projectDescription, estimateTime, createdAt, updatedAt};
 

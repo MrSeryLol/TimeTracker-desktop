@@ -8,6 +8,7 @@ import "./ui/Errors"
 
 Window {
     id: root
+    color: "#2b1f30"
 
     Connections {
         target: AuthAPI
@@ -47,6 +48,9 @@ Window {
             Text {
                 id: loginLabel
                 text: "Логин"
+                color: "#c2c2c2"
+                font.bold: true
+                font.pixelSize: 17
             }
 
             TextField {
@@ -57,17 +61,43 @@ Window {
             Text {
                 id: passwordLabel
                 text: "Пароль"
+                color: "#c2c2c2"
+                font.bold: true
+                font.pixelSize: 17
             }
 
             TextField {
                 id: passwordInput
                 placeholderText: "Введите свой пароль"
+                echoMode: TextInput.Password
             }
 
-            Button {
+            RoundButton  {
                 id: signInBtn
                 Layout.preferredWidth: passwordInput.width
                 text: "Войти"
+                font.bold: true
+                font.pixelSize: 17
+
+                background: Rectangle {
+                    opacity: enabled ? 1 : 0.3
+                    border.color: signInBtn.down ? "white" : "#c2c2c2"
+                    border.width: 1
+                    color: "#2b1f30"
+                    radius: 2
+                }
+
+                contentItem: Text {
+                    text: signInBtn.text
+                    font: signInBtn.font
+                    color: "#c2c2c2"
+                    opacity: enabled ? 1.0 : 0.3
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+
+
                 onClicked: {
                     console.log("Введён пароль")
                     AuthAPI.signIn(loginInput.text, passwordInput.text)
