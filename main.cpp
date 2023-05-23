@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     //ProjectAPI project;
     //HistoryOfWorkAPI history;
     //history.saveActivity();
-    TimeTracker timer;
+    //TimeTracker timer;
     //qDebug() << timer.getTaskName();
     //AuthAPI auth;
     //ProjectDetailsModel projectDetails;
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
     //ProjectsModel projectModel(list);
     //engine.rootContext()->setContextProperty("_project", &project);
-    engine.rootContext()->setContextProperty("_timeTracker", &timer);
+    //engine.rootContext()->setContextProperty("_timeTracker", &timer);
     //engine.rootContext()->setContextProperty("_history", &history);
     //engine.rootContext()->setContextProperty("_auth", &auth);
 

@@ -2,33 +2,33 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
-//import TimeTracker 1.0
+import TimeTracker 1.0
 
 Item {
     id: root
     function startAndStopTimeTracker() {
-        if (!_timeTracker.isTaskSelected) {
+        if (!TimeTracker.isTaskSelected) {
             startAndStopButton.enabled = false
         }
         else {
-            if (_timeTracker.isRunning) {
-                _timeTracker.stop();
+            if (TimeTracker.isRunning) {
+                TimeTracker.stop();
             }
             else {
-                _timeTracker.start();
+                TimeTracker.start();
             }
         }
     }
     function changeStatus() {
-        if (!_timeTracker.isTaskSelected) {
+        if (!TimeTracker.isTaskSelected) {
             sleepButton.enabled = false
         }
         else {
-            if (_timeTracker.isActive) {
-                _timeTracker.pause()
+            if (TimeTracker.isActive) {
+                TimeTracker.pause()
             }
             else {
-                _timeTracker.unpause()
+                TimeTracker.unpause()
             }
         }
     }
@@ -38,7 +38,7 @@ Item {
     }
 
     Connections {
-        target: _timeTracker
+        target: TimeTracker
         function onStopWorking() {
             //_timeTracker.saveActivity()
         }
@@ -70,40 +70,40 @@ Item {
                 color: "#c2c2c2"
                 font.bold: true
                 font.pixelSize: 20
-                visible: _timeTracker.projectName === ''
+                visible: TimeTracker.projectName === ''
             }
         }
         ColumnLayout {
             Layout.alignment: Qt.AlignTop | Qt.AlignCenter
             Text {
                 id: activeProjectLabel
-                text: `Проект: ${_timeTracker.projectName}`
+                text: `Проект: ${TimeTracker.projectName}`
                 color: "#c2c2c2"
                 font.bold: true
                 font.pixelSize: 18
-                visible: !(_timeTracker.projectName === '')
+                visible: !(TimeTracker.projectName === '')
             }
 
             Text {
-                text: `Текущая активная задача: ${_timeTracker.taskName}`
+                text: `Текущая активная задача: ${TimeTracker.taskName}`
                 color: "#c2c2c2"
                 font.bold: true
                 font.pixelSize: 16
-                visible: !(_timeTracker.taskName === '')
+                visible: !(TimeTracker.taskName === '')
             }
         }
         ColumnLayout {
             Layout.alignment: Qt.AlignCenter | Qt.AlignTop
             Label {
                 id: stopWatch
-                text: _timeTracker.mainTime === 0 ? "" : `Времени прошло: ${getTime(_timeTracker.mainTime)}`
+                text: TimeTracker.mainTime === 0 ? "" : `Времени прошло: ${getTime(TimeTracker.mainTime)}`
                 font.bold: true
                 color: "#c2c2c2"
                 font.pixelSize: 24
             }
             Label {
                 id: status
-                text: _timeTracker.isActive ? "Статус: Активен" : "Статус: Неактивен"
+                text: TimeTracker.isActive ? "Статус: Активен" : "Статус: Неактивен"
                 font.bold: true
                 color: "#c2c2c2"
                 font.pixelSize: 10
@@ -122,7 +122,7 @@ Item {
                     id: startAndStopButton
                     width: 32
                     height: 32
-                    source: _timeTracker.isRunning ? "qrc:/ui/Assets/stop_button_icon.png" : "qrc:/ui/Assets/start_button_icon.png"
+                    source: TimeTracker.isRunning ? "qrc:/ui/Assets/stop_button_icon.png" : "qrc:/ui/Assets/start_button_icon.png"
                 }
                 MouseArea {
                     anchors.fill: startAndStopButtonArea
@@ -148,7 +148,7 @@ Item {
                     id: sleepButton
                     width: 32
                     height: 32
-                    source: _timeTracker.isActive ? "qrc:/ui/Assets/sleep_icon.png" : "qrc:/ui/Assets/in_work_icon.png"
+                    source: TimeTracker.isActive ? "qrc:/ui/Assets/sleep_icon.png" : "qrc:/ui/Assets/in_work_icon.png"
                 }
                 MouseArea {
                     anchors.fill: sleepButtonArea
@@ -166,5 +166,4 @@ Item {
             }
         }
     }
-
 }

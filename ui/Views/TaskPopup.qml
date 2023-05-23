@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
 import ProjectAPI 1.0
-//import TimeTracker 1.0
+import TimeTracker 1.0
 
 Item {
     id: root
@@ -134,8 +134,8 @@ Item {
                 height: 100
                 text: "Выбрать задачу"
                 onClicked: {
-                    _timeTracker.setTask(tasksList.model, tasksList.currentIndex)
-                    _timeTracker.setProject(projectView.model, projectView.currentIndex)
+                    TimeTracker.setTask(tasksList.model, tasksList.currentIndex)
+                    TimeTracker.setProject(projectView.model, projectView.currentIndex)
                     taskPopup.close()
                 }
             }

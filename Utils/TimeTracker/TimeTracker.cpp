@@ -58,7 +58,6 @@ void TimeTracker::stop()
     //Когда останавливается таймер, необходимо отменить выбранную задачу и работу таймер
     _isRunning = false;
     _isTaskSelected = false;
-    _isActive = true;
 
     //Если пользователь завершил работу в статусе "Неактивен", то необходимо также считать время паузы
     if (!_isActive)
@@ -66,6 +65,7 @@ void TimeTracker::stop()
         qDebug() << "Всё время паузы: " << _allPauseTime;
         _allPauseTime = _pauseTime.elapsed();
         qDebug() << "Всё время паузы: " << _allPauseTime;
+        _isActive = true;
     }
     //_allPauseTime += _pauseTime.elapsed();
 
