@@ -50,7 +50,6 @@ private:
     int _allPauseTime = 0;
     int _efficientTime = 0;
 
-    bool isPaused = true;
     bool _isRunning = false;
     bool _isTaskSelected = false;
     bool _isActive = true;
@@ -58,8 +57,6 @@ private:
     QTimer *timer;
     QDateTime _startDateTime;
     QDateTime _endDateTime;
-    //QDateTime _startPauseTime;
-    //QDate
 
 signals:
     void projectNameChanged();
