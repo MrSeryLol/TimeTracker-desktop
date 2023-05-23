@@ -26,7 +26,7 @@ void ProjectAPI::createProjectDetailsModel()
 void ProjectAPI::getAllProjectsForEmployee()
 {
     //Формирование ссылки и заголовка для запроса
-    QString url = baseURL + QString("/api/projects/userProjects/%1").arg(TokenParser::getUserId(userToken));
+    QString url = baseURL + QString("/api/projects/userProjects/%1").arg(TokenParser::getUserId(userToken));/*TokenParser::getUserId(userToken)*/
     QNetworkRequest request(url);
     auto header = QString("Bearer %1").arg(userToken);
     request.setRawHeader(QByteArray("Authorization"), header.toUtf8());

@@ -3,12 +3,14 @@
 HistoryOfWorkAPI::HistoryOfWorkAPI(QObject *parent)
     : QObject{parent}
 {
-    connect(&_timeTracker, &TimeTracker::stopWorking, this, qOverload<HistoryOfWorkDTO>(&HistoryOfWorkAPI::saveActivity));
+//    bool connected = connect(&_timeTracker, &TimeTracker::stopWorking, this, &HistoryOfWorkAPI::saveActivity);/*qOverload<HistoryOfWorkDTO>(&HistoryOfWorkAPI::saveActivity));*/
 
+//    qDebug() << connected;
 }
 
-void HistoryOfWorkAPI::saveActivity(HistoryOfWorkDTO history)
+void HistoryOfWorkAPI::saveActivity()
 {
+    qDebug() << "История пришла!!!";
     //Формирование header для запроса
     QUrl url(baseURL + "/api/history/saveActivity");
     QNetworkRequest req(url);

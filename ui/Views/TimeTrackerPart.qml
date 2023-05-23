@@ -2,6 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 
+//import TimeTracker 1.0
+
 Item {
     id: root
     function startAndStopTimeTracker() {
@@ -33,6 +35,13 @@ Item {
 
     function getTime(mSeconds) {
         return new Date(mSeconds).toISOString().slice(11, 19);
+    }
+
+    Connections {
+        target: _timeTracker
+        function onStopWorking() {
+            //_timeTracker.saveActivity()
+        }
     }
 
     ColumnLayout {

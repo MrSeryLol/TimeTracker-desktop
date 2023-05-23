@@ -68,7 +68,8 @@ signals:
     void runningChanged();
     void taskSelected();
     void statusChanged();
-    void stopWorking(const HistoryOfWorkDTO &history);
+    //void stopWorking(HistoryOfWorkDTO history);
+    void stopWorking();
 };
 
 #endif // TIMETRACKER_H

@@ -12,7 +12,7 @@ class HistoryOfWorkAPI : public QObject
 public:
     explicit HistoryOfWorkAPI(QObject *parent = nullptr);
 
-    void saveActivity(HistoryOfWorkDTO history);
+    Q_INVOKABLE void saveActivity();
 
 
 //public slots:
@@ -21,7 +21,7 @@ public:
 
 private:
     QNetworkAccessManager _manager;
-    TimeTracker _timeTracker;
+    //TimeTracker _timeTracker;
 
 
 signals:

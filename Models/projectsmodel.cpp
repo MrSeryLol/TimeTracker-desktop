@@ -69,19 +69,4 @@ QHash<int, QByteArray> ProjectsModel::roleNames() const
     return mapping;
 }
 
-int ProjectsModel::size() const
-{
 
-}
-
-QVariant ProjectsModel::getData(int index, int role)
-{
-    if (index < 0 || index >= _projectsList->count())
-            return QVariant();
-        switch (role) {
-        case ProjectNameRole:
-            return "Привет";
-        default:
-            return QVariant();
-        }
-}

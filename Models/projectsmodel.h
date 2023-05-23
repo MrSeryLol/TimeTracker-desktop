@@ -30,12 +30,6 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-
-public slots:
-    int size() const;   // to access from QML javascript
-    QVariant getData(int index, int role);  // to access from QML javascript
-
-
 private:
     QList<ProjectDTO>* _projectsList;
     //QByteArray _info;

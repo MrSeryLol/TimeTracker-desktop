@@ -27,7 +27,21 @@ int main(int argc, char *argv[])
         AuthAPI *example = new AuthAPI();
         return example;
     });
-    //QQmlContext* context = engine.rootContext();
+    qmlRegisterSingletonType<ProjectAPI>("ProjectAPI", 1, 0, "ProjectAPI", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
+
+        ProjectAPI *example = new ProjectAPI();
+        return example;
+    });
+//    qmlRegisterSingletonType<TimeTracker>("TimeTracker", 1, 0, "TimeTracker", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+//        Q_UNUSED(engine)
+//        Q_UNUSED(scriptEngine)
+
+//        TimeTracker *example = new TimeTracker();
+//        return example;
+//    });
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -37,11 +51,11 @@ int main(int argc, char *argv[])
 
 
 
-    ProjectAPI project;
-    HistoryOfWorkAPI history;
+    //ProjectAPI project;
+    //HistoryOfWorkAPI history;
     //history.saveActivity();
     TimeTracker timer;
-    qDebug() << timer.getTaskName();
+    //qDebug() << timer.getTaskName();
     //AuthAPI auth;
     //ProjectDetailsModel projectDetails;
     //project.getProjects();
@@ -54,8 +68,9 @@ int main(int argc, char *argv[])
     //list->append(dto);
 
     //ProjectsModel projectModel(list);
-    engine.rootContext()->setContextProperty("_project", &project);
+    //engine.rootContext()->setContextProperty("_project", &project);
     engine.rootContext()->setContextProperty("_timeTracker", &timer);
+    //engine.rootContext()->setContextProperty("_history", &history);
     //engine.rootContext()->setContextProperty("_auth", &auth);
 
     //engine.rootContext()->setContextProperty("_projectDetailsModel", project.projectDetailsModel());

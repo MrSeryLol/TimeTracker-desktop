@@ -27,7 +27,7 @@ void TimeTracker::updateTime()
     if (_isRunning)
     {
         _allWorkingTime = _workingTime.elapsed();
-        qDebug() << "Время: " << _allWorkingTime;
+        //qDebug() << "Время: " << _allWorkingTime;
         emit timeChanged();
     }
 }
@@ -78,9 +78,10 @@ void TimeTracker::stop()
     emit taskSelected();
     emit projectNameChanged();
     emit taskNameChanged();
-    emit stopWorking(HistoryOfWorkDTO{_efficientTime, _startDateTime, _endDateTime,
-                     QDate::currentDate(), _project.projectId, _task.taskId, 1,
-                     QDateTime::currentDateTime(), QDateTime::currentDateTime()});
+//    emit stopWorking(HistoryOfWorkDTO{_efficientTime, _startDateTime, _endDateTime,
+//                     QDate::currentDate(), _project.projectId, _task.taskId, 1,
+//                     QDateTime::currentDateTime(), QDateTime::currentDateTime()});
+    emit stopWorking();
 }
 
 void TimeTracker::setProject(ProjectsModel* list, int row)
