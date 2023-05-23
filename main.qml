@@ -123,7 +123,7 @@ Window {
         function onSuccessVerification() {
             var component = Qt.createComponent("./ui/Views/MainPage.qml")
             mainWindow = component.createObject(null, { "id": "root" })
-            root.hide()
+            root.close()
         }
     }
 

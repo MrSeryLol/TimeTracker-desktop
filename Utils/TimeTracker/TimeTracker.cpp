@@ -58,9 +58,16 @@ void TimeTracker::stop()
     //Когда останавливается таймер, необходимо отменить выбранную задачу и работу таймер
     _isRunning = false;
     _isTaskSelected = false;
+    _isActive = true;
 
     //Если пользователь завершил работу в статусе "Неактивен", то необходимо также считать время паузы
-    _allPauseTime += _pauseTime.elapsed();
+    if (!_isActive)
+    {
+        qDebug() << "Всё время паузы: " << _allPauseTime;
+        _allPauseTime = _pauseTime.elapsed();
+        qDebug() << "Всё время паузы: " << _allPauseTime;
+    }
+    //_allPauseTime += _pauseTime.elapsed();
 
     //При остановке считываем дату и время окончания работы
     _endDateTime = QDateTime::currentDateTime();
@@ -69,6 +76,7 @@ void TimeTracker::stop()
     _history.startDateTime = _startDateTime;
     _history.endDateTime = _endDateTime;
 
+    qDebug() << "Всё время паузы: " << _allPauseTime;
     //Высчитыаем полезное время
     _efficientTime = _startDateTime.time().secsTo(_endDateTime.time()) - _allPauseTime / 1000;
 
@@ -80,12 +88,14 @@ void TimeTracker::stop()
     qDebug() << "Общее время: " << _allWorkingTime / 1000;
     qDebug() << "Время начала: " << _startDateTime;
     qDebug() << "Время окончания: " << _endDateTime;
+    qDebug() << "Всё время паузы: " << _allPauseTime;
     qDebug() << "Время паузы: " << _allPauseTime / 1000;
     qDebug() << "Полезное время: " << _efficientTime;
 
     //Свойства для обновления на стороне QML
     _project.projectName = "";
     _task.taskName = "";
+    emit statusChanged();
     emit timeChanged();
     emit runningChanged();
     emit taskSelected();

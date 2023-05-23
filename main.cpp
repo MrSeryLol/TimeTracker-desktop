@@ -34,13 +34,13 @@ int main(int argc, char *argv[])
         ProjectAPI *example = new ProjectAPI();
         return example;
     });
-//    qmlRegisterSingletonType<TimeTracker>("TimeTracker", 1, 0, "TimeTracker", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
-//        Q_UNUSED(engine)
-//        Q_UNUSED(scriptEngine)
+    qmlRegisterSingletonType<TimeTracker>("TimeTracker", 1, 0, "TimeTracker", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+        Q_UNUSED(engine)
+        Q_UNUSED(scriptEngine)
 
-//        TimeTracker *example = new TimeTracker();
-//        return example;
-//    });
+        TimeTracker *example = new TimeTracker();
+        return example;
+    });
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
